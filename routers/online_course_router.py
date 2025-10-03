@@ -1,0 +1,22 @@
+from fastapi import APIRouter
+from database import db_dependency
+from services import online_course_service as OnlineCourseService
+from schema.online_course import OnlineCourseCreate, OnlineCourseUpdate
+
+router = APIRouter()
+
+@router.get("/")
+def getOnlineCourses(db: db_dependency):
+    return OnlineCourseService.getOnlineCourses(db)
+
+@router.post("/")
+def createOnlineCourse(new_online_course: OnlineCourseCreate, db: db_dependency):
+    return OnlineCourseService.createOnlineCourse(new_online_course, db)
+
+@router.put("/{onlineCourseId}")
+def updateOnlineCourse(onlineCourseId: int, updated_online_course: OnlineCourseUpdate, db: db_dependency):
+    return OnlineCourseService.updateOnlineCourse(onlineCourseId, updated_online_course, db)
+
+@router.delete("/{onlineCourseId}")
+def deleteOnlineCourse(onlineCourseId: int, db: db_dependency):
+    return OnlineCourseService.deleteOnlineCourse(onlineCourseId, db)

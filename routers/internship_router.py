@@ -1,0 +1,22 @@
+from fastapi import APIRouter
+from database import db_dependency
+from services import internship_service as internshipService
+from schema.internship import InternshipCreate, InternshipUpdate
+
+router = APIRouter()
+
+@router.get("/")
+def get_internship(db: db_dependency):
+    return internshipService.get_internship(db)
+
+@router.post("/")
+def create_internship(new_internship: InternshipCreate, db: db_dependency):
+    return internshipService.create_internship(new_internship, db)
+
+@router.put("/{internshipId}")
+def update_internship(internshipId: int, updated_internship: InternshipUpdate, db: db_dependency):
+    return internshipService.update_internship(internshipId, updated_internship, db)
+
+@router.delete("/{internshipId}")
+def delete_internship(internshipId: int, db: db_dependency):
+    return internshipService.delete_internship(internshipId, db)
