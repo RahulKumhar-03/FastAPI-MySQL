@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from routers import user_router, personal_info_router, education_router, degree_router, online_course_router, certification_router, highSchool_router, thesis_router, keyword_mapping_router, keyword_router, course_router, completedCourse_router
-from routers import internship_router, project_router, skillValidatedMapping_router, skillValidated_router
+from routers import internship_router, project_router, skillValidatedMapping_router, skillValidated_router, honor_router
 
 
 app = FastAPI()
@@ -21,3 +21,4 @@ app.include_router(internship_router.router, prefix="/internship", tags=["Intern
 app.include_router(project_router.router, prefix="/project", tags=["Project"])
 app.include_router(skillValidatedMapping_router.router, prefix="/skillValidatedMapping", tags=["Skill Validated Mapping"])
 app.include_router(skillValidated_router.router, prefix="/skillValidated", tags=["Skill Validated"])
+app.include_router(honor_router.router, prefix="/honor", tags=["Honor"])
