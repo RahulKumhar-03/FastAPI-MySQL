@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, Date, CHAR
 from database import Base
 from datetime import datetime, date
 import uuid
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, validator
 
 class User(Base):
     __tablename__ = 'user'
@@ -22,8 +22,21 @@ class User(Base):
 
 class UserBase(BaseModel):
     firstName: str
-    userName: str
+    userName: str = Field(min_length=3)
+
+    @validator('userName')
+    def no_continuous_spaces(cls, value: str) -> str:
+        if '  ' in value:
+            raise ValueError('Username cannot contain continuous spaces')
+        return value
+    
     email: str
+
+    @validator('email')
+    def email_validator(cls, value: str):
+        if '@' not in value:
+            raise ValueError('Invalid Email Address.')
+        return value
 
 class UserUpdate(UserBase):
     isActive:bool
