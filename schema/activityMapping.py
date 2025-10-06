@@ -31,3 +31,6 @@ class ActivityMappingUpdate(ActivityMappingBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class ActivityMappingResponse(ActivityMappingBase):
+    activityMappingId: int

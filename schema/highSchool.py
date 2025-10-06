@@ -37,3 +37,6 @@ class HighSchoolUpdate(HighSchoolBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class HighSchoolResponse(HighSchoolBase):
+    highSchoolId: int

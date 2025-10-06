@@ -38,5 +38,6 @@ class PersonalInfoUpdate(PersonalInfoBase):
     changedBy: str
     changedOn: date
 
-
+class PersonalInfoResponse(PersonalInfoBase):
+    personalInfoId: int
 

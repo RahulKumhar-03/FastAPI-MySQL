@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import activityMapping_service as activityMappingService
-from schema.activityMapping import ActivityMappingCreate, ActivityMappingUpdate
+from schema.activityMapping import ActivityMappingCreate, ActivityMappingUpdate, ActivityMappingResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[ActivityMappingResponse])
 def get_activityMapping(db: db_dependency):
     return activityMappingService.get_activityMapping(db)
 

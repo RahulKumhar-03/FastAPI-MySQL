@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import education_service as EducationService
-from schema.education import EducationCreate
+from schema.education import EducationCreate, EducationResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[EducationResponse])
 def getEducations(db: db_dependency):
     return EducationService.getEducation(db)
 

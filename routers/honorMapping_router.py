@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import honorMapping_service as honorMappingService
-from schema.honorMapping import HonorMappingCreate, HonorMappingUpdate
+from schema.honorMapping import HonorMappingCreate, HonorMappingUpdate, HonorMappingResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[HonorMappingResponse])
 def get_honorMapping(db: db_dependency):
     return honorMappingService.get_honorMapping(db)
 

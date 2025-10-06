@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import certification_service as certificationService
-from schema.certification import CertificationCreate, CertificationUpdate
+from schema.certification import CertificationCreate, CertificationUpdate, CertificationResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[CertificationResponse])
 def getCertification(db: db_dependency):
     return certificationService.getCertifications(db)
 

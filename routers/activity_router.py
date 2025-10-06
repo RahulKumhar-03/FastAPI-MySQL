@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import activity_service as activityService
-from schema.activity import ActivityCreate, ActivityUpdate
+from schema.activity import ActivityCreate, ActivityUpdate, ActivityResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[ActivityResponse])
 def get_activity(db: db_dependency):
     return activityService.get_activity(db)
 

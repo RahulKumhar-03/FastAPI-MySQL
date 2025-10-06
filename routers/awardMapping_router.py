@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import awardMapping_service as awardMappingService
-from schema.awardMapping import awardMappingCreate, AwardMappingUpdate
+from schema.awardMapping import awardMappingCreate, AwardMappingUpdate, AwardMappingResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[AwardMappingResponse])
 def get_awardMapping(db: db_dependency):
     return awardMappingService.get_awardMapping(db)
 

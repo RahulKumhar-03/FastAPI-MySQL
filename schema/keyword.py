@@ -29,3 +29,6 @@ class KeywordUpdate(KeywordBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class KeywordResponse(KeywordBase):
+    keywordId: int

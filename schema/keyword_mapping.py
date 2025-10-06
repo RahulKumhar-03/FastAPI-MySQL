@@ -31,3 +31,6 @@ class KeywordMappingUpdate(KeywordMappingBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class KeywordMappingResponse(KeywordMappingBase):
+    keywordMappingId: int

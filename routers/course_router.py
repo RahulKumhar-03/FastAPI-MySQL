@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import course_service as courseService
-from schema.course import CourseCreate, CourseUpdate
+from schema.course import CourseCreate, CourseUpdate, CourseResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[CourseResponse])
 def get_courses(db: db_dependency):
     return courseService.getCourses(db)
 

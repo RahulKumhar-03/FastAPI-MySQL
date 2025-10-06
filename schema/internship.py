@@ -39,3 +39,6 @@ class InternshipUpdate(InternshipBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class InternshipResponse(InternshipBase):
+    internshipId: int

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import user_service as UserService
-from schema.user import UserUpdate, UserBase
+from schema.user import UserUpdate, UserBase, UserResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[UserResponse])
 async def getUsers(db: db_dependency):
     return UserService.getUsers(db)
 

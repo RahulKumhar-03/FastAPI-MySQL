@@ -31,3 +31,6 @@ class HonorMappingUpdate(HonorMappingBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class HonorMappingResponse(HonorMappingBase):
+    honorMappingId: int

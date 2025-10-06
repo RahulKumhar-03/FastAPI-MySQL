@@ -29,3 +29,6 @@ class SkillValidatedUpdate(SkillValidatedBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class SkillValidatedResponse(SkillValidatedBase):
+    skillValidatedId: int

@@ -29,3 +29,6 @@ class HonorUpdate(HonorBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class HonorResponse(HonorBase):
+    honorId: int

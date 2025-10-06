@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import highSchool_service as highSchoolService
-from schema.highSchool import HighSchoolCreate,HighSchoolUpdate
+from schema.highSchool import HighSchoolCreate,HighSchoolUpdate, HighSchoolResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[HighSchoolResponse])
 def getHighSchools(db: db_dependency):
     return highSchoolService.getHighSchools(db)
 

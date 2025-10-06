@@ -58,3 +58,6 @@ class CertificationUpdate(CertificationBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class CertificationResponse(CertificationBase):
+    certificationId: int

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import skillValidatedMapping_service as skillValidatedMappingService
-from schema.skillValidatedMapping import SkillValidatedMappingCreate, SkillValidatedMappingUpdate
+from schema.skillValidatedMapping import SkillValidatedMappingCreate, SkillValidatedMappingUpdate, SkillValidatedMappingResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[SkillValidatedMappingResponse])
 def get_skillValidatedMapping(db: db_dependency):
     return skillValidatedMappingService.get_skillValidatedMapping(db)
 

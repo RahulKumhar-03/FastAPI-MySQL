@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import keyword_service as keywordService
-from schema.keyword import KeywordCreate, KeywordUpdate
+from schema.keyword import KeywordCreate, KeywordUpdate, KeywordResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[KeywordResponse])
 def get_keyword(db: db_dependency):
     return keywordService.get_keyword(db)
 

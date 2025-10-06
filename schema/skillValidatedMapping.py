@@ -31,3 +31,6 @@ class SkillValidatedMappingUpdate(SkillValidatedMappingBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class SkillValidatedMappingResponse(SkillValidatedMappingBase):
+    skillValidatedMappingId: int

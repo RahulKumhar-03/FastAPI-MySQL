@@ -29,3 +29,6 @@ class ActivityUpdate(ActivityBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class ActivityResponse(ActivityBase):
+    activityId: int

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import project_service as projectService
-from schema.project import ProjectCreate, ProjectUpdate
+from schema.project import ProjectCreate, ProjectUpdate, ProjectResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[ProjectResponse])
 def get_project(db: db_dependency):
     return projectService.get_project(db)
 

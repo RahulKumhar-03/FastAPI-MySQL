@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import thesis_service as thesisService
-from schema.thesis import ThesisCreate, ThesisUpdate
+from schema.thesis import ThesisCreate, ThesisUpdate, ThesisResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[ThesisResponse])
 def getThesis(db: db_dependency):
     return thesisService.getThesis(db)
 

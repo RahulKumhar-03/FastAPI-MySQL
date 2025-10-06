@@ -43,3 +43,6 @@ class DegreeUpdate(DegreeBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class DegreeResponse(DegreeBase):
+    degreeId : int

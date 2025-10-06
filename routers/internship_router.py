@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import internship_service as internshipService
-from schema.internship import InternshipCreate, InternshipUpdate
+from schema.internship import InternshipCreate, InternshipUpdate, InternshipResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[InternshipResponse])
 def get_internship(db: db_dependency):
     return internshipService.get_internship(db)
 

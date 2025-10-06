@@ -23,14 +23,13 @@ class User(Base):
 class UserBase(BaseModel):
     firstName: str
     userName: str = Field(min_length=3)
+    email: str
 
     @validator('userName')
     def no_continuous_spaces(cls, value: str) -> str:
         if '  ' in value:
             raise ValueError('Username cannot contain continuous spaces')
         return value
-    
-    email: str
 
     @validator('email')
     def email_validator(cls, value: str):
@@ -42,3 +41,6 @@ class UserUpdate(UserBase):
     isActive:bool
     changedBy: str
     changedOn: date
+
+class UserResponse(UserBase):
+    userId: int

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import skillValidated_service as skillValidatedService
-from schema.skillValidated import SkillValidatedCreate, SkillValidatedUpdate
+from schema.skillValidated import SkillValidatedCreate, SkillValidatedUpdate, SkillValidatedResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[SkillValidatedResponse])
 def get_skillValidated(db: db_dependency):
     return skillValidatedService.get_skillValidated(db)
 

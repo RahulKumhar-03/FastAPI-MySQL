@@ -39,3 +39,6 @@ class OnlineCourseUpdate(OnlineCourseBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class OnlineCourseResponse(OnlineCourseBase):
+    onlineCourseId: int

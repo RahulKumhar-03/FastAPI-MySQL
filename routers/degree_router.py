@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import degree_service as DegreeService
-from schema.degree import DegreeCreate, DegreeUpdate
+from schema.degree import DegreeCreate, DegreeUpdate, DegreeResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[DegreeResponse])
 def getDegrees(db: db_dependency):
     return DegreeService.getDegrees(db)
 

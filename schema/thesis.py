@@ -41,3 +41,6 @@ class ThesisUpdate(ThesisBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class ThesisResponse(ThesisBase):
+    thesisId: int

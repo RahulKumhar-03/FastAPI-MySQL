@@ -31,3 +31,6 @@ class ProjectUpdate(ProjectBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class ProjectResponse(ProjectBase):
+    projectId: int

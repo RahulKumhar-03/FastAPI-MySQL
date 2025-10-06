@@ -43,3 +43,6 @@ class CompletedCourseUpdate(CompletedCourseBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class CompletedCourseResponse(CompletedCourseBase):
+    completedCourseId: int

@@ -24,3 +24,6 @@ class EducationBase(BaseModel):
 class EducationCreate(EducationBase):
     createdBy: str
     createdOn: date
+
+class EducationResponse(EducationBase):
+    educationId: int

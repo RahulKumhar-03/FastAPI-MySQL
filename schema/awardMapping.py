@@ -31,3 +31,6 @@ class AwardMappingUpdate(AwardMappingBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class AwardMappingResponse(AwardMappingBase):
+    awardMappingId: int

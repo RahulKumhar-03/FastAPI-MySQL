@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import personal_info_service as PersonalInfoService
-from schema.personalInfo import PersonalInfoCreate, PersonalInfoUpdate
+from schema.personalInfo import PersonalInfoCreate, PersonalInfoUpdate, PersonalInfoResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[PersonalInfoResponse])
 def getPersonalInfos(db: db_dependency):
     return PersonalInfoService.getPersonalInfos(db)
 

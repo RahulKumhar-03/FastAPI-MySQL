@@ -1,4 +1,4 @@
-from schema.thesis import Thesis, ThesisCreate, ThesisUpdate 
+from schema.thesis import Thesis, ThesisCreate, ThesisUpdate, ThesisResponse
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -9,7 +9,7 @@ def create_thesis(new_thesis: ThesisCreate, db: db_dependency):
     db.commit()
     return db_thesis
 
-def get_thesis(db: db_dependency):
+def get_thesis(db: db_dependency) -> list[ThesisResponse]:
     thesis = db.query(Thesis).all()
     return thesis
 

@@ -1,4 +1,4 @@
-from schema.user import User, UserBase, UserUpdate
+from schema.user import User, UserBase, UserUpdate, UserResponse
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -9,7 +9,7 @@ def create_user(user: UserBase, db: db_dependency):
     db.commit()
     return db_user
 
-def get_users(db: db_dependency):
+def get_users(db: db_dependency) -> list[UserResponse]:
     users = db.query(User).all()
     return users
 

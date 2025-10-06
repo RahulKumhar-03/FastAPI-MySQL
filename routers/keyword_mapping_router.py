@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import keyword_mapping_service as keywordMappingService
-from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate
+from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate, KeywordMappingResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[KeywordMappingResponse])
 def get_keyword_mapping(db: db_dependency):
     return keywordMappingService.get_keyword_mapping(db)
 

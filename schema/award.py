@@ -29,3 +29,6 @@ class AwardUpdate(AwardBase):
     isActive: bool
     changedBy: str
     changedOn: date
+
+class AwardResponse(AwardBase):
+    awardId: int

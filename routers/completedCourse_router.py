@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import completedCourse_service as completedCourseService
-from schema.completedCourse import CompletedCourseCreate, CompletedCourseUpdate
+from schema.completedCourse import CompletedCourseCreate, CompletedCourseUpdate, CompletedCourseResponse
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=list[CompletedCourseResponse])
 def get_completedCourse(db: db_dependency):
     return completedCourseService.get_completedCourse(db)
 
