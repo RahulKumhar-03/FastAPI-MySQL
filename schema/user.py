@@ -24,6 +24,7 @@ class UserBase(BaseModel):
     firstName: str
     userName: str = Field(min_length=3)
     email: str
+    isActive: bool
 
     @validator('userName')
     def no_continuous_spaces(cls, value: str) -> str:
@@ -41,6 +42,11 @@ class UserUpdate(UserBase):
     isActive:bool
     changedBy: str
     changedOn: date
+
+class UserDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
 
 class UserResponse(UserBase):
     userId: int

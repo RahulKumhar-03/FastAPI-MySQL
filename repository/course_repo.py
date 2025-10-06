@@ -1,4 +1,4 @@
-from schema.course import Course, CourseCreate, CourseUpdate
+from schema.course import Course, CourseCreate, CourseUpdate, CourseDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_course(course_id: int, updated_course: CourseUpdate, db: db_dependenc
     db.commit()
     return db_course
 
-def delete_course(course_id: int, db: db_dependency):
+def delete_course(course_id: int, course_delete: Course, db: db_dependency):
     db_course = db.query(Course).filter(Course.courseId == course_id).first()
 
-    db.delete(db_course)
+    for key, value in course_delete.dict(exclude_unset=True).items():
+        setattr(db_course, key, value)
+        
     db.commit()
     return {"message":"Course Record Deleted Successfully."}

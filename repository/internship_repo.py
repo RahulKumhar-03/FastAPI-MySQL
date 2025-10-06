@@ -1,4 +1,4 @@
-from schema.internship import Internship, InternshipCreate, InternshipUpdate
+from schema.internship import Internship, InternshipCreate, InternshipUpdate, InternshipDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_internship(internship_id: int, updated_internship: InternshipUpdate, 
     db.commit()
     return db_internship
 
-def delete_internship(internship_id: int, db: db_dependency):
+def delete_internship(internship_id: int, internship_delete: InternshipDelete, db: db_dependency):
     db_internship = db.query(Internship).filter(Internship.internshipId == internship_id).first()
 
-    db.delete(db_internship)
+    for key, value in internship_delete.dict(exclude_unset=True).items():
+        setattr(db_internship, key, value)
+        
     db.commit()
     return {"message":"Internship Record Deleted Successfully."}

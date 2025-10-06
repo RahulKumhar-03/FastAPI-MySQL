@@ -38,6 +38,11 @@ class PersonalInfoUpdate(PersonalInfoBase):
     changedBy: str
     changedOn: date
 
+class PersonalInfoDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class PersonalInfoResponse(PersonalInfoBase):
     personalInfoId: int
 

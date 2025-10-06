@@ -42,5 +42,10 @@ class ThesisUpdate(ThesisBase):
     changedBy: str
     changedOn: date
 
+class ThesisDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class ThesisResponse(ThesisBase):
     thesisId: int

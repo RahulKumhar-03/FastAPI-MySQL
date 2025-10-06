@@ -1,4 +1,4 @@
-from schema.skillValidatedMapping import SkillValidatedMapping, SkillValidatedMappingCreate, SkillValidatedMappingUpdate
+from schema.skillValidatedMapping import SkillValidatedMapping, SkillValidatedMappingCreate, SkillValidatedMappingUpdate, SkillValidatedMappingDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_skillValidatedMapping(skillValidatedMapping_id: int, updated_skillVal
     db.commit()
     return db_skillValidatedMapping
 
-def delete_skillValidatedMapping(skillValidatedMapping_id: int, db: db_dependency):
+def delete_skillValidatedMapping(skillValidatedMapping_id: int, skillValidatedMapping_delete: SkillValidatedMappingDelete, db: db_dependency):
     db_skillValidatedMapping = db.query(SkillValidatedMapping).filter(SkillValidatedMapping.skillValidatedMappingId == skillValidatedMapping_id).first()
 
-    db.delete(db_skillValidatedMapping)
+    for key, value in SkillValidatedMappingDelete.dict(exclude_unset=True).items():
+        setattr(db_skillValidatedMapping, key, value)    
+        
     db.commit()
     return {"message":"Skill Validated Mapping Record Deleted Successfully."}

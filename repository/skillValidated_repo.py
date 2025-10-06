@@ -1,4 +1,4 @@
-from schema.skillValidated import SkillValidated, SkillValidatedCreate, SkillValidatedUpdate
+from schema.skillValidated import SkillValidated, SkillValidatedCreate, SkillValidatedUpdate, SkillValidatedDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillV
     db.commit()
     return db_skillValidated
 
-def delete_skillValidated(skillValidated_id: int, db: db_dependency):
+def delete_skillValidated(skillValidated_id: int, skillValidated_delete: SkillValidatedDelete, db: db_dependency):
     db_skillValidated = db.query(SkillValidated).filter(SkillValidated.skillValidatedId == skillValidated_id).first()
 
-    db.delete(db_skillValidated)
+    for key, value in skillValidated_delete.dict(exclude_unset=True).items():
+        setattr(db_skillValidated, key, value)
+         
     db.commit()
     return {"message":"Skill Validated Record Deleted Successfully."}

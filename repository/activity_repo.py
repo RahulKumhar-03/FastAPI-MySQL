@@ -1,4 +1,4 @@
-from schema.activity import Activity, ActivityUpdate, ActivityCreate
+from schema.activity import Activity, ActivityUpdate, ActivityCreate, ActivityDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_activity(activity_id: int, updated_activity: ActivityUpdate, db: db_d
     db.commit()
     return db_activity
 
-def delete_activity(activity_id: int, db: db_dependency):
+def delete_activity(activity_id: int, activity_soft_delete: ActivityDelete, db: db_dependency):
     db_activity = db.query(Activity).filter(Activity.activityId == activity_id).first()
 
-    db.delete(db_activity)
+    for key, value in activity_soft_delete.dict(exclude_unset=True).items():
+        setattr(db_activity, key, value)
+
     db.commit()
     return {"message":"Activity Record Deleted Successfully."}

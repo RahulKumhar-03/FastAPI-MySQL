@@ -30,5 +30,10 @@ class KeywordUpdate(KeywordBase):
     changedBy: str
     changedOn: date
 
+class KeywordDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class KeywordResponse(KeywordBase):
     keywordId: int

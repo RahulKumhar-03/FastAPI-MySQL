@@ -32,5 +32,10 @@ class AwardMappingUpdate(AwardMappingBase):
     changedBy: str
     changedOn: date
 
+class AwardMappingDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class AwardMappingResponse(AwardMappingBase):
     awardMappingId: int

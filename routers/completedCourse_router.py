@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import completedCourse_service as completedCourseService
-from schema.completedCourse import CompletedCourseCreate, CompletedCourseUpdate, CompletedCourseResponse
+from schema.completedCourse import CompletedCourseCreate, CompletedCourseUpdate, CompletedCourseResponse, CompletedCourseDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_completedCourse(completedCourseId: int, updated_completedCourse: Comp
     return completedCourseService.update_completedCourse(completedCourseId, updated_completedCourse, db)
 
 @router.delete("/{completedCourseId}")
-def delete_completedCourse(completedCourseId: int, db: db_dependency):
-    return completedCourseService.delete_completedCourse(completedCourseId, db)
+def delete_completedCourse(completedCourseId: int, completedCourse_delete: CompletedCourseDelete, db: db_dependency):
+    return completedCourseService.delete_completedCourse(completedCourseId, completedCourse_delete, db)

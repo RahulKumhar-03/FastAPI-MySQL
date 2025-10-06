@@ -32,5 +32,10 @@ class KeywordMappingUpdate(KeywordMappingBase):
     changedBy: str
     changedOn: date
 
+class KeywordMappingDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class KeywordMappingResponse(KeywordMappingBase):
     keywordMappingId: int

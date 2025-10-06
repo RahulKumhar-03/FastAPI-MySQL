@@ -1,4 +1,4 @@
-from schema.personalInfo import PersonalInfo, PersonalInfoCreate, PersonalInfoUpdate
+from schema.personalInfo import PersonalInfo, PersonalInfoCreate, PersonalInfoUpdate, PersonalInfoDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_personal_info(personal_info_id: int, updated_personal_info: PersonalI
     db.commit()
     return db_personal_info
 
-def delete_personal_info(personalInfoId: int, db: db_dependency):
+def delete_personal_info(personalInfoId: int, personalInfo_delete: PersonalInfoDelete, db: db_dependency):
     db_personal_info = db.query(PersonalInfo).filter(PersonalInfo.personalInfoId == personalInfoId).first()
 
-    db.delete(db_personal_info)
+    for key, value in personalInfo_delete.dict(exclude_unset=True).items():
+        setattr(db_personal_info, key, value)
+        
     db.commit()
     return {"message":"Personal Info Record Deleted Successfully."}

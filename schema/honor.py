@@ -30,5 +30,10 @@ class HonorUpdate(HonorBase):
     changedBy: str
     changedOn: date
 
+class HonorDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class HonorResponse(HonorBase):
     honorId: int

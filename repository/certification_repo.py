@@ -1,4 +1,4 @@
-from schema.certification import Certification, CertificationCreate, CertificationUpdate
+from schema.certification import Certification, CertificationCreate, CertificationUpdate, CertificationDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_certification(certification_id: int, updated_certification: Certifica
     db.commit()
     return db_certification
 
-def delete_certification(certification_id: int, db: db_dependency):
+def delete_certification(certification_id: int, certification_delete: CertificationDelete, db: db_dependency):
     db_certification = db.query(Certification).filter(Certification.certificationId == certification_id).first()
 
-    db.delete(db_certification)
+    for key, value in certification_delete.dict(exclude_unset=True).items():
+        setattr(db_certification, key, value)
+        
     db.commit()
     return {"message":"Certification Record Deleted Successfully."}

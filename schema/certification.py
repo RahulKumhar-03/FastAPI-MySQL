@@ -59,5 +59,10 @@ class CertificationUpdate(CertificationBase):
     changedBy: str
     changedOn: date
 
+class CertificationDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class CertificationResponse(CertificationBase):
     certificationId: int

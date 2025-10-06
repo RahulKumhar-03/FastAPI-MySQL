@@ -44,5 +44,10 @@ class CompletedCourseUpdate(CompletedCourseBase):
     changedBy: str
     changedOn: date
 
+class CompletedCourseDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class CompletedCourseResponse(CompletedCourseBase):
     completedCourseId: int

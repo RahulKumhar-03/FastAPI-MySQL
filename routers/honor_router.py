@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import honor_service as honorService
-from schema.honor import HonorCreate, HonorUpdate, HonorResponse
+from schema.honor import HonorCreate, HonorUpdate, HonorResponse, HonorDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_honor(honor_id: int, updated_honor: HonorUpdate, db: db_dependency):
     return honorService.update_honor(honor_id, updated_honor, db)
 
 @router.delete("/{honor_id}")
-def delete_honor(honor_id: int, db: db_dependency):
-    return honorService.delete_honor(honor_id, db)
+def delete_honor(honor_id: int, honor_delete: HonorDelete, db: db_dependency):
+    return honorService.delete_honor(honor_id, honor_delete, db)

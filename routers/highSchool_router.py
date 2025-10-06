@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import highSchool_service as highSchoolService
-from schema.highSchool import HighSchoolCreate,HighSchoolUpdate, HighSchoolResponse
+from schema.highSchool import HighSchoolCreate,HighSchoolUpdate, HighSchoolResponse, HighSchoolDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def updateHighSchool(highSchoolId: int, updated_highSchool: HighSchoolUpdate, db
     return highSchoolService.updateHighSchool(highSchoolId, updated_highSchool, db)
 
 @router.delete("/{highSchoolId}")
-def deleteHighSchool(highSchoolId: int, db: db_dependency):
-    return highSchoolService.deleteHighSchool(highSchoolId, db)
+def deleteHighSchool(highSchoolId: int, highSchool_delete: HighSchoolDelete, db: db_dependency):
+    return highSchoolService.deleteHighSchool(highSchoolId, highSchool_delete, db)

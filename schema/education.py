@@ -25,5 +25,10 @@ class EducationCreate(EducationBase):
     createdBy: str
     createdOn: date
 
+class EducationDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class EducationResponse(EducationBase):
     educationId: int

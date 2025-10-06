@@ -1,4 +1,4 @@
-from schema.awardMapping import AwardMapping, awardMappingCreate, AwardMappingUpdate
+from schema.awardMapping import AwardMapping, awardMappingCreate, AwardMappingUpdate, AwardMappingDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_awardMapping(awardMapping_id: int, updated_awardMapping: AwardMapping
     db.commit()
     return db_awardMapping
 
-def delete_awardMapping(awardMapping_id: int, db: db_dependency):
+def delete_awardMapping(awardMapping_id: int, awardMapping_delete: AwardMappingDelete, db: db_dependency):
     db_awardMapping = db.query(AwardMapping).filter(AwardMapping.awardMappingId == awardMapping_id).first()
 
-    db.delete(db_awardMapping)
+    for key, value in awardMapping_delete.dict(exclude_unset=True).items():
+        setattr(db_awardMapping, key, value)
+
     db.commit()
     return {"message":"Award Mapping Record Deleted Successfully."}

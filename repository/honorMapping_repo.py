@@ -1,4 +1,4 @@
-from schema.honorMapping import HonorMapping, HonorMappingCreate, HonorMappingUpdate
+from schema.honorMapping import HonorMapping, HonorMappingCreate, HonorMappingUpdate, HonorMappingDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_honorMapping(honorMapping_id: int, updated_honorMapping: HonorMapping
     db.commit()
     return db_honorMapping
 
-def delete_honorMapping(honorMapping_id: int, db: db_dependency):
+def delete_honorMapping(honorMapping_id: int, honorMapping_delete: HonorMappingDelete, db: db_dependency):
     db_honorMapping = db.query(HonorMapping).filter(HonorMapping.honorMappingId == honorMapping_id).first()
 
-    db.delete(db_honorMapping)
+    for key, value in honorMapping_delete.dict(exclude_unset=True).items():
+        setattr(db_honorMapping, key, value)
+
     db.commit()
     return {"message":"Honor Mapping Record Deleted Successfully."}

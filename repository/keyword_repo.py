@@ -1,4 +1,4 @@
-from schema.keyword import KeywordCreate, KeywordUpdate, Keyword
+from schema.keyword import KeywordCreate, KeywordUpdate, Keyword, KeywordDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_keyword(keyword_id: int, updated_keyword: KeywordUpdate, db: db_depen
     db.commit()
     return db_keyword
 
-def delete_keyword(keyword_id: int, db: db_dependency):
+def delete_keyword(keyword_id: int, keyword_delete: KeywordDelete, db: db_dependency):
     db_keyword = db.query(Keyword).filter(Keyword.keywordId == keyword_id).first()
 
-    db.delete(db_keyword)
+    for key, value in keyword_delete.dict(exclude_unset=True).items():
+        setattr(db_keyword, key, value)
+        
     db.commit()
     return {"message":"Keyword Record Deleted Successfully."}

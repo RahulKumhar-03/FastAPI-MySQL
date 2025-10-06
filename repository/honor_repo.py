@@ -1,4 +1,4 @@
-from schema.honor import Honor, HonorCreate, HonorUpdate
+from schema.honor import Honor, HonorCreate, HonorUpdate, HonorDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_honor(honor_id: int, updated_honor: HonorUpdate, db: db_dependency):
     db.commit()
     return db_honor
 
-def delete_honor(honor_id: int, db: db_dependency):
+def delete_honor(honor_id: int, honor_delete: HonorDelete, db: db_dependency):
     db_honor = db.query(Honor).filter(Honor.honorId == honor_id).first()
 
-    db.delete(db_honor)
+    for key, value in honor_delete.dict(exclude_unset=True).items():
+        setattr(db_honor, key, value)
+        
     db.commit()
     return {"message":"Honor Record Deleted Successfully."}

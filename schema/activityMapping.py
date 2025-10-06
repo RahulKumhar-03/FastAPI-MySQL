@@ -32,5 +32,10 @@ class ActivityMappingUpdate(ActivityMappingBase):
     changedBy: str
     changedOn: date
 
+class ActivityMappingDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class ActivityMappingResponse(ActivityMappingBase):
     activityMappingId: int

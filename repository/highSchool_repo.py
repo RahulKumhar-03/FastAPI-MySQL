@@ -1,4 +1,4 @@
-from schema.highSchool import HighSchool, HighSchoolCreate, HighSchoolUpdate
+from schema.highSchool import HighSchool, HighSchoolCreate, HighSchoolUpdate, HighSchoolDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_highSchool(highSchoolId: int, updated_highSchool: HighSchoolUpdate, d
     db.commit()
     return db_highSchool
 
-def delete_highSchool(highSchoolId: int, db: db_dependency):
+def delete_highSchool(highSchoolId: int, highSchool_delete: HighSchoolDelete, db: db_dependency):
     db_highSchool = db.query(HighSchool).filter(HighSchool.highSchoolId == highSchoolId).first()
 
-    db.delete(db_highSchool)
+    for key, value in highSchool_delete.dict(exclude_unset=True).items():
+        setattr(db_highSchool, key, value)
+
     db.commit()
     return {"message":"High School Record Deleted Successfully."}

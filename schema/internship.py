@@ -40,5 +40,10 @@ class InternshipUpdate(InternshipBase):
     changedBy: str
     changedOn: date
 
+class InternshipDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class InternshipResponse(InternshipBase):
     internshipId: int

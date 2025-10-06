@@ -32,5 +32,10 @@ class ProjectUpdate(ProjectBase):
     changedBy: str
     changedOn: date
 
+class ProjectDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class ProjectResponse(ProjectBase):
     projectId: int

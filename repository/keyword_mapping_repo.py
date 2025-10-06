@@ -1,4 +1,4 @@
-from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate, KeywordMapping
+from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate, KeywordMapping, KeywordMappingDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_keyword_mapping(keyword_mapping_id: int, updated_keyword_mapping: Key
     db.commit()
     return db_keyword_mapping
 
-def delete_keyword_mapping(keyword_mapping_id: int, db: db_dependency):
+def delete_keyword_mapping(keyword_mapping_id: int, keywordMapping_delete: KeywordMappingDelete, db: db_dependency):
     db_keyword_mapping = db.query(KeywordMapping).filter(KeywordMapping.keywordMappingId == keyword_mapping_id).first()
 
-    db.delete(db_keyword_mapping)
+    for key, value in keywordMapping_delete.dict(exclude_unset=True).items():
+        setattr(db_keyword_mapping, key, value)
+        
     db.commit()
     return {"message":"Keyword Mapping Record Deleted Successfully."}

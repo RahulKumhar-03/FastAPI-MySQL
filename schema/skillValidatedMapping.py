@@ -28,9 +28,14 @@ class SkillValidatedMappingCreate(SkillValidatedMappingBase):
     createdOn: date
 
 class SkillValidatedMappingUpdate(SkillValidatedMappingBase):
-    isActive: bool
+    isActive: bool = False
     changedBy: str
     changedOn: date
+
+class SkillValidatedMappingDelete(BaseModel):
+    isActive: bool
+    deletedBy: str
+    deletedOn: datetime
 
 class SkillValidatedMappingResponse(SkillValidatedMappingBase):
     skillValidatedMappingId: int

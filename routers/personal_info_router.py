@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import personal_info_service as PersonalInfoService
-from schema.personalInfo import PersonalInfoCreate, PersonalInfoUpdate, PersonalInfoResponse
+from schema.personalInfo import PersonalInfoCreate, PersonalInfoUpdate, PersonalInfoResponse, PersonalInfoDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def updatePersonalInfo(personalInfoId: int, updated_personal_info: PersonalInfoU
     return PersonalInfoService.updatePersonalInfo(personalInfoId, updated_personal_info, db)
 
 @router.delete("/{personalInfoId}")
-def deletePersonalInfo(personalInfoId: int, db: db_dependency):
-    return PersonalInfoService.deletePersonalInfo(personalInfoId, db)
+def deletePersonalInfo(personalInfoId: int, personalInfo_delete: PersonalInfoDelete, db: db_dependency):
+    return PersonalInfoService.deletePersonalInfo(personalInfoId, personalInfo_delete, db)

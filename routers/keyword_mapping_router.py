@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import keyword_mapping_service as keywordMappingService
-from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate, KeywordMappingResponse
+from schema.keyword_mapping import KeywordMappingCreate, KeywordMappingUpdate, KeywordMappingResponse, KeywordMappingDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_keyword_mapping(keyword_mapping_id: int, updated_keyword_mapping: Key
     return keywordMappingService.update_keyword_mapping(keyword_mapping_id, updated_keyword_mapping, db)
 
 @router.delete("/{keyword_mapping_id}")
-def delete_keyword_mapping(keyword_mapping_id: int, db: db_dependency):
-    return keywordMappingService.delete_keyword_mapping(keyword_mapping_id, db)
+def delete_keyword_mapping(keyword_mapping_id: int, keywordMapping_delete: KeywordMappingDelete, db: db_dependency):
+    return keywordMappingService.delete_keyword_mapping(keyword_mapping_id, keywordMapping_delete, db)

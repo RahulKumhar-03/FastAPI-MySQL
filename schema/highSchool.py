@@ -38,5 +38,10 @@ class HighSchoolUpdate(HighSchoolBase):
     changedBy: str
     changedOn: date
 
+class HighSchoolDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class HighSchoolResponse(HighSchoolBase):
     highSchoolId: int

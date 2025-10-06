@@ -32,5 +32,10 @@ class HonorMappingUpdate(HonorMappingBase):
     changedBy: str
     changedOn: date
 
+class HonorMappingDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class HonorMappingResponse(HonorMappingBase):
     honorMappingId: int

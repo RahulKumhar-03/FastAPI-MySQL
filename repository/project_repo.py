@@ -1,4 +1,4 @@
-from schema.project import Project, ProjectCreate, ProjectUpdate
+from schema.project import Project, ProjectCreate, ProjectUpdate, ProjectDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_project(project_id: int, updated_project: ProjectUpdate, db: db_depen
     db.commit()
     return db_project
 
-def delete_project(project_id: int, db: db_dependency):
+def delete_project(project_id: int, project_delete: ProjectDelete, db: db_dependency):
     db_project = db.query(Project).filter(Project.projectId == project_id).first()
 
-    db.delete(db_project)
+    for key, value in project_delete.dict(exclude_unset=True).items():
+        setattr(db_project, key, value)
+        
     db.commit()
     return {"message":"Project Record Deleted Successfully."}

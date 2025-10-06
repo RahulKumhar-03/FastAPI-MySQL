@@ -1,4 +1,4 @@
-from schema.user import User, UserBase, UserUpdate, UserResponse
+from schema.user import User, UserBase, UserUpdate, UserResponse, UserDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_user(userId: int, user_updated: UserUpdate, db: db_dependency):
     db.commit()
     return user
 
-def delete_user(userId: int, db: db_dependency):
-    user = db.query(User).filter(User.userId == userId).first()
+def delete_user(userId: int, user_delete: UserDelete, db: db_dependency):
+    db_user = db.query(User).filter(User.userId == userId).first()
 
-    db.delete(user)
+    for key, value in user_delete.dict(exclude_unset=True).items():
+        setattr(db_user, key, value)
+
     db.commit()
     return {"message":"User Deleted Successfully."}

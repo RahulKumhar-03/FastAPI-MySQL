@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import certification_service as certificationService
-from schema.certification import CertificationCreate, CertificationUpdate, CertificationResponse
+from schema.certification import CertificationCreate, CertificationUpdate, CertificationResponse, CertificationDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def updateCertification(certificationId: int, updated_certification: Certificati
     return certificationService.updateCertification(certificationId, updated_certification, db)
 
 @router.delete("/{certificationId}")
-def deleteCertification(certificationId: int, db: db_dependency):
-    return certificationService.deleteCertification(certificationId, db)
+def deleteCertification(certificationId: int, certification_delete: CertificationDelete, db: db_dependency):
+    return certificationService.deleteCertification(certificationId, certification_delete, db)

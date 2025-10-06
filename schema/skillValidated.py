@@ -30,5 +30,10 @@ class SkillValidatedUpdate(SkillValidatedBase):
     changedBy: str
     changedOn: date
 
+class SkillValidatedDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class SkillValidatedResponse(SkillValidatedBase):
     skillValidatedId: int

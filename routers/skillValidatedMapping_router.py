@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import skillValidatedMapping_service as skillValidatedMappingService
-from schema.skillValidatedMapping import SkillValidatedMappingCreate, SkillValidatedMappingUpdate, SkillValidatedMappingResponse
+from schema.skillValidatedMapping import SkillValidatedMappingCreate, SkillValidatedMappingUpdate, SkillValidatedMappingResponse, SkillValidatedMappingDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_skillValidatedMapping(skillValidatedMapping_id: int, updated_skillVal
     return skillValidatedMappingService.update_skillValidatedMapping(skillValidatedMapping_id, updated_skillValidatedMapping, db)
 
 @router.delete("/{skillValidatedMapping_id}")
-def delete_skillValidatedMapping(skillValidatedMapping_id: int, db: db_dependency):
-    return skillValidatedMappingService.delete_skillValidatedMapping(skillValidatedMapping_id, db)
+def delete_skillValidatedMapping(skillValidatedMapping_id: int, skillValidatedMapping_delete: SkillValidatedMappingDelete, db: db_dependency):
+    return skillValidatedMappingService.delete_skillValidatedMapping(skillValidatedMapping_id, skillValidatedMapping_delete, db)

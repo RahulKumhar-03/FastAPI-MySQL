@@ -1,4 +1,4 @@
-from schema.degree import Degree, DegreeCreate, DegreeUpdate
+from schema.degree import Degree, DegreeCreate, DegreeUpdate, DegreeDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_degree(degree_id: int, updated_degree: DegreeUpdate, db: db_dependenc
     db.commit()
     return db_degree
 
-def delete_degree(degreeId: int, db: db_dependency):
+def delete_degree(degreeId: int, degree_delete: DegreeDelete, db: db_dependency):
     db_degree = db.query(Degree).filter(Degree.degreeId == degreeId).first()
 
-    db.delete(db_degree)
+    for key, value in degree_delete.dict(exclude_unset=True).items():
+        setattr(db_degree, key, value)
+        
     db.commit()
     return {"message":"Degree Record Deleted Successfully."}

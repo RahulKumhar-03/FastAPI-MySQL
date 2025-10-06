@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import thesis_service as thesisService
-from schema.thesis import ThesisCreate, ThesisUpdate, ThesisResponse
+from schema.thesis import ThesisCreate, ThesisUpdate, ThesisResponse, ThesisDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def updateThesis(thesisId: int, updated_thesis: ThesisUpdate, db: db_dependency)
     return thesisService.updateThesis(thesisId, updated_thesis, db)
 
 @router.delete("/{thesisId}")
-def deleteThesis(thesisId: int, db: db_dependency):
-    return thesisService.deleteThesis(thesisId, db)
+def deleteThesis(thesisId: int, thesis_delete: ThesisDelete, db: db_dependency):
+    return thesisService.deleteThesis(thesisId, thesis_delete, db)

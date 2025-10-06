@@ -20,15 +20,20 @@ class Activity(Base):
 
 class ActivityBase(BaseModel):
     activityName: str
+    isActive: bool
 
 class ActivityCreate(ActivityBase):
     createdBy: str
     createdOn: date
 
 class ActivityUpdate(ActivityBase):
-    isActive: bool
     changedBy: str
     changedOn: date
+
+class ActivityDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
 
 class ActivityResponse(ActivityBase):
     activityId: int

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import education_service as EducationService
-from schema.education import EducationCreate, EducationResponse
+from schema.education import EducationCreate, EducationResponse, EducationDelete
 
 router = APIRouter()
 
@@ -15,6 +15,6 @@ def createEducation(new_education: EducationCreate, db: db_dependency):
 
 
 @router.delete("/{educationId}")
-def deleteEducation(educationId: int, db: db_dependency):
-    return EducationService.deleteEducation(educationId, db)
+def deleteEducation(educationId: int, education_delete: EducationDelete, db: db_dependency):
+    return EducationService.deleteEducation(educationId, education_delete, db)
 

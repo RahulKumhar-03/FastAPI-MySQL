@@ -40,5 +40,10 @@ class OnlineCourseUpdate(OnlineCourseBase):
     changedBy: str
     changedOn: date
 
+class OnlineCourseDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class OnlineCourseResponse(OnlineCourseBase):
     onlineCourseId: int

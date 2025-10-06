@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import internship_service as internshipService
-from schema.internship import InternshipCreate, InternshipUpdate, InternshipResponse
+from schema.internship import InternshipCreate, InternshipUpdate, InternshipResponse, InternshipDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_internship(internshipId: int, updated_internship: InternshipUpdate, d
     return internshipService.update_internship(internshipId, updated_internship, db)
 
 @router.delete("/{internshipId}")
-def delete_internship(internshipId: int, db: db_dependency):
-    return internshipService.delete_internship(internshipId, db)
+def delete_internship(internshipId: int, internship_delete: InternshipDelete, db: db_dependency):
+    return internshipService.delete_internship(internshipId, internship_delete, db)

@@ -44,5 +44,10 @@ class DegreeUpdate(DegreeBase):
     changedBy: str
     changedOn: date
 
+class DegreeDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class DegreeResponse(DegreeBase):
     degreeId : int

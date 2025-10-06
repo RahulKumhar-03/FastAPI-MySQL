@@ -30,5 +30,10 @@ class AwardUpdate(AwardBase):
     changedBy: str
     changedOn: date
 
+class AwardDelete(BaseModel):
+    isActive: bool = False
+    deletedBy: str
+    deletedOn: datetime
+
 class AwardResponse(AwardBase):
     awardId: int

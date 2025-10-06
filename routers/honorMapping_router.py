@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import honorMapping_service as honorMappingService
-from schema.honorMapping import HonorMappingCreate, HonorMappingUpdate, HonorMappingResponse
+from schema.honorMapping import HonorMappingCreate, HonorMappingUpdate, HonorMappingResponse, HonorMappingDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_honorMapping(honorMapping_id: int, updated_honorMapping: HonorMapping
     return honorMappingService.update_honorMapping(honorMapping_id, updated_honorMapping, db)
 
 @router.delete("/{honorMapping_id}")
-def delete_honorMapping(honorMapping_id: int, db: db_dependency):
-    return honorMappingService.delete_honorMapping(honorMapping_id, db)
+def delete_honorMapping(honorMapping_id: int, honorMapping_delete: HonorMappingDelete, db: db_dependency):
+    return honorMappingService.delete_honorMapping(honorMapping_id, honorMapping_delete, db)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import activity_service as activityService
-from schema.activity import ActivityCreate, ActivityUpdate, ActivityResponse
+from schema.activity import ActivityCreate, ActivityUpdate, ActivityResponse, ActivityDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_activity(activity_id: int, updated_activity: ActivityUpdate, db: db_d
     return activityService.update_activity(activity_id, updated_activity, db)
 
 @router.delete("/{activity_id}")
-def delete_activity(activity_id: int, db: db_dependency):
-    return activityService.delete_activity(activity_id, db)
+def delete_activity(activity_id: int, activity_deleted: ActivityDelete, db: db_dependency):
+    return activityService.delete_activity(activity_id, activity_deleted, db)

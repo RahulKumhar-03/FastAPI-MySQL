@@ -1,4 +1,4 @@
-from schema.activityMapping import ActivityMapping, ActivityMappingCreate, ActivityMappingUpdate
+from schema.activityMapping import ActivityMapping, ActivityMappingCreate, ActivityMappingUpdate, ActivityMappingDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_activityMapping(activityMapping_id: int, updated_activityMapping: Act
     db.commit()
     return db_activityMapping
 
-def delete_activityMapping(activityMapping_id: int, db: db_dependency):
+def delete_activityMapping(activityMapping_id: int, activity_delete: ActivityMappingDelete, db: db_dependency):
     db_activityMapping = db.query(ActivityMapping).filter(ActivityMapping.activityMappingId == activityMapping_id).first()
 
-    db.delete(db_activityMapping)
+    for key, value in activity_delete.dict(exclude_unset=True).items():
+        setattr(db_activityMapping, key, value)
+        
     db.commit()
     return {"message":"Activity Mapping Record Deleted Successfully."}

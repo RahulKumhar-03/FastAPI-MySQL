@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from database import db_dependency
 from services import keyword_service as keywordService
-from schema.keyword import KeywordCreate, KeywordUpdate, KeywordResponse
+from schema.keyword import KeywordCreate, KeywordUpdate, KeywordResponse, KeywordDelete
 
 router = APIRouter()
 
@@ -18,5 +18,5 @@ def update_keyword(keyword_id: int, updated_keyword: KeywordUpdate, db: db_depen
     return keywordService.update_keyword(keyword_id, updated_keyword, db)
 
 @router.delete("/{keyword_id}")
-def delete_keyword(keyword_id: int, db: db_dependency):
-    return keywordService.delete_keyword(keyword_id, db)
+def delete_keyword(keyword_id: int, keyword_delete: KeywordDelete, db: db_dependency):
+    return keywordService.delete_keyword(keyword_id, keyword_delete, db)

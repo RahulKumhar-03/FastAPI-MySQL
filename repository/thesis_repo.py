@@ -1,4 +1,4 @@
-from schema.thesis import Thesis, ThesisCreate, ThesisUpdate, ThesisResponse
+from schema.thesis import Thesis, ThesisCreate, ThesisUpdate, ThesisResponse, ThesisDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
@@ -25,9 +25,11 @@ def update_thesis(thesis_id: int, updated_thesis: ThesisUpdate, db: db_dependenc
     db.commit()
     return db_thesis
 
-def delete_thesis(thesis_id: int, db: db_dependency):
+def delete_thesis(thesis_id: int, thesis_delete: ThesisDelete, db: db_dependency):
     db_thesis = db.query(Thesis).filter(Thesis.thesisId == thesis_id).first()
 
-    db.delete(db_thesis)
+    for key, value in thesis_delete.dict(exclude_unset=True).items():
+        setattr(db_thesis, key, value)
+        
     db.commit()
     return {"message":"Online Course Record Deleted Successfully."}
