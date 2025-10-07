@@ -1,6 +1,6 @@
 from repository import online_course_repo as OnlineCourseRepo
 from database import db_dependency
-from schema.online_course import OnlineCourseCreate, OnlineCourseUpdate
+from schema.online_course import OnlineCourseCreate, OnlineCourseUpdate, OnlineCourseDelete
 
 def getOnlineCourses(db: db_dependency):
     return OnlineCourseRepo.get_online_course(db)
@@ -11,5 +11,5 @@ def createOnlineCourse(new_online_course: OnlineCourseCreate, db: db_dependency)
 def updateOnlineCourse(onlineCourseId: int, updated_online_course: OnlineCourseUpdate, db: db_dependency):
     return OnlineCourseRepo.update_online_course(onlineCourseId, updated_online_course, db)
 
-def deleteOnlineCourse(onlineCourseId: int, db: db_dependency):
-    return OnlineCourseRepo.delete_online_course(onlineCourseId, db)
+def deleteOnlineCourse(onlineCourseId: int, onlineCourse_delete: OnlineCourseDelete, db: db_dependency):
+    return OnlineCourseRepo.delete_online_course(onlineCourseId, onlineCourse_delete, db)

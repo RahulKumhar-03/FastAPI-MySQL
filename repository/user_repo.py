@@ -1,13 +1,18 @@
-from schema.user import User, UserBase, UserUpdate, UserResponse, UserDelete
+from schema.user import User, UserCreate, UserUpdate, UserResponse, UserDelete
 from database import db_dependency
 from fastapi import HTTPException, status
+from services.auth_service import pwd_context
 
-
-def create_user(user: UserBase, db: db_dependency):
-    db_user = User(**user.dict())
+def create_user(user: UserCreate, db: db_dependency):
+    db_user = User(
+        firstName = user.firstName,
+        userName = user.userName,
+        email = user.email, 
+        hashed_password = pwd_context.hash(user.password)
+    )
     db.add(db_user)
     db.commit()
-    return db_user
+    return {'message':'User Registered Successfully.'}
 
 def get_users(db: db_dependency) -> list[UserResponse]:
     users = db.query(User).all()
