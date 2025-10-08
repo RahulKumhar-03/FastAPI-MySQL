@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, Boolean, Date, CHAR
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, CHAR, ForeignKey
 from database import Base
 from datetime import datetime
 import uuid
-from pydantic import BaseModel, ValidationInfo, field_validator
+from pydantic import BaseModel, ValidationInfo, field_validator, Field
 
 class User(Base):
     __tablename__ = 'user'
@@ -14,12 +14,12 @@ class User(Base):
     hashed_password = Column(String(500), nullable=False)
     uiId = Column(CHAR(36), nullable=False, default=str(uuid.uuid4()))
     isActive = Column(Boolean, default=True)
-    createdBy = Column(String(50), nullable=True, default='admin')
-    createdOn = Column(Date, default=datetime.now())
-    changedBy = Column(String(50), nullable=True)
-    changedOn = Column(Date, nullable=True)
-    deletedBy = Column(String(50), nullable=True)
-    deletedOn = Column(Date, nullable=True)
+    createdBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    createdOn = Column(DateTime, default=datetime.now())
+    changedBy = Column(Integer,ForeignKey('user.userId'), nullable=True)
+    changedOn = Column(DateTime, nullable=True, onupdate=datetime.now())
+    deletedBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    deletedOn = Column(DateTime, nullable=True)
 
 class UserBase(BaseModel):
     firstName: str
@@ -57,7 +57,6 @@ class UserCreate(UserBase):
         return value
     
     confirmPassword: str
-    createdBy: str
 
     @field_validator('confirmPassword')
     def password_matching(cls, value: str, info: ValidationInfo):
@@ -67,13 +66,10 @@ class UserCreate(UserBase):
 
 class UserUpdate(UserBase):
     isActive:bool
-    changedBy: str
-    changedOn: datetime
 
 class UserDelete(BaseModel):
     isActive: bool = False
-    deletedBy: str
-    deletedOn: datetime
+    deletedOn: datetime = datetime.now()
 
 class UserResponse(UserBase):
     userId: int

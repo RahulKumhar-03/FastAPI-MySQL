@@ -6,6 +6,7 @@ from typing import Annotated
 from datetime import datetime, timedelta
 from settings import settings
 from repository import user_repo as UserRepo
+from database import db_dependency
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated='auto')
 
@@ -19,8 +20,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
 
         if userEmail is None or userId is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='User Not Authenticated.')
-        
-        return {'userEmail':userEmail, 'id': userId}
+
+        return {'userEmail':userEmail, 'userId':userId}
     
     except ExpiredSignatureError:
         raise HTTPException(
@@ -30,10 +31,12 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
     
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='User Not Authenticated.')
+    
+user_dependency = Annotated[dict, Depends(get_current_user)]
 
 def create_access_token(email: str, user_id: int):
     encode = {'sub': email, 'id': user_id}
-    expires = datetime.utcnow() + timedelta(minutes=1) 
+    expires = datetime.now() + timedelta(minutes=30) 
     encode.update({'exp':expires})
     return jwt.encode(encode, settings.secret_key, algorithm = settings.algorithm)
 
