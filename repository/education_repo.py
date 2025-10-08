@@ -2,7 +2,7 @@ from database import db_dependency
 from schema.education import EducationCreate, Education, EducationDelete
 
 def createEducation(new_education: EducationCreate, db: db_dependency):
-    db_education = Education(**new_education.dict())
+    db_education = Education(**new_education.model_dump())
     db.add(db_education)
     db.commit()
 
@@ -13,7 +13,7 @@ def getEducation(db: db_dependency):
 def deleteEducation(educationId: int, education_delete: EducationDelete, db: db_dependency):
     db_education = db.query(Education).filter(Education.educationId == educationId).first()
 
-    for key, value in education_delete.dict(exclude_unset=True).items():
+    for key, value in education_delete.model_dump().items():
         setattr(db_education, key, value)
 
     db.commit()

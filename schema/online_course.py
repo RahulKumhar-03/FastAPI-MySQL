@@ -33,12 +33,11 @@ class OnlineCourseBase(BaseModel):
 class OnlineCourseCreate(OnlineCourseBase):
     educationId: int
     createdBy: str
-    createdOn: date
 
 class OnlineCourseUpdate(OnlineCourseBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class OnlineCourseDelete(BaseModel):
     isActive: bool = False

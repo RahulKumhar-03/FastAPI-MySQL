@@ -33,12 +33,11 @@ class InternshipBase(BaseModel):
 class InternshipCreate(InternshipBase):
     degreeId: int
     createdBy: str
-    createdOn: date
 
 class InternshipUpdate(InternshipBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class InternshipDelete(BaseModel):
     isActive: bool = False

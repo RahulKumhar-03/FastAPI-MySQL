@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Date, Boolean, String, CHAR
 from database import Base
-from datetime import datetime, date
+from datetime import datetime
 import uuid
 from pydantic import BaseModel
 
@@ -24,11 +24,11 @@ class ActivityBase(BaseModel):
 
 class ActivityCreate(ActivityBase):
     createdBy: str
-    createdOn: date
+    createdOn: datetime
 
 class ActivityUpdate(ActivityBase):
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class ActivityDelete(BaseModel):
     isActive: bool = False

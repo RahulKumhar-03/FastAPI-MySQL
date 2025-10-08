@@ -23,7 +23,6 @@ class EducationBase(BaseModel):
 
 class EducationCreate(EducationBase):
     createdBy: str
-    createdOn: date
 
 class EducationDelete(BaseModel):
     isActive: bool = False

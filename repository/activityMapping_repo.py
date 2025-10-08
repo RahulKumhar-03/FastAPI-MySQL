@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_activityMapping(new_activityMapping: ActivityMappingCreate, db: db_dependency):
-    db_activityMapping = ActivityMapping(**new_activityMapping.dict())
+    db_activityMapping = ActivityMapping(**new_activityMapping.model_dump())
     db.add(db_activityMapping)
     db.commit()
     return db_activityMapping
@@ -19,7 +19,7 @@ def update_activityMapping(activityMapping_id: int, updated_activityMapping: Act
     if db_activityMapping is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_activityMapping.dict(exclude_unset=True).items():
+    for key, value in updated_activityMapping.model_dump().items():
         setattr(db_activityMapping, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_activityMapping(activityMapping_id: int, updated_activityMapping: Act
 def delete_activityMapping(activityMapping_id: int, activity_delete: ActivityMappingDelete, db: db_dependency):
     db_activityMapping = db.query(ActivityMapping).filter(ActivityMapping.activityMappingId == activityMapping_id).first()
 
-    for key, value in activity_delete.dict(exclude_unset=True).items():
+    for key, value in activity_delete.model_dump().items():
         setattr(db_activityMapping, key, value)
         
     db.commit()

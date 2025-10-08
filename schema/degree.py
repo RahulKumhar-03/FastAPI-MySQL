@@ -37,12 +37,11 @@ class DegreeBase(BaseModel):
 class DegreeCreate(DegreeBase):
     educationId: int
     createdBy: str
-    createdOn: date
 
 class DegreeUpdate(DegreeBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class DegreeDelete(BaseModel):
     isActive: bool = False

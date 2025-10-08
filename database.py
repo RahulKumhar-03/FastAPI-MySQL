@@ -3,10 +3,9 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Annotated
 from fastapi import Depends
+from settings import settings
 
-DATABASE_URL = 'mysql+pymysql://root:root@localhost:3306/practiceDb'
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.database_url)
 
 SessionLocal = sessionmaker(autocommit = False, autoflush=False, bind=engine)
 

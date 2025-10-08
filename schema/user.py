@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, Boolean, Date, CHAR
 from database import Base
-from datetime import datetime, date
+from datetime import datetime
 import uuid
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ValidationInfo, field_validator
 
 class User(Base):
     __tablename__ = 'user'
@@ -23,7 +23,7 @@ class User(Base):
 
 class UserBase(BaseModel):
     firstName: str
-    userName: str = Field(min_length=3)
+    userName: str
     email: str
     
     @field_validator('userName')
@@ -57,17 +57,18 @@ class UserCreate(UserBase):
         return value
     
     confirmPassword: str
+    createdBy: str
 
     @field_validator('confirmPassword')
-    def password_matching(cls, value, values):
-        if 'password' in values and value  != values['password']:
-            raise ValueError('Password do not match.')
+    def password_matching(cls, value: str, info: ValidationInfo):
+        if value != info.data['password']:
+            raise ValueError('Passwords do not match')
         return value
 
 class UserUpdate(UserBase):
     isActive:bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class UserDelete(BaseModel):
     isActive: bool = False
@@ -76,4 +77,3 @@ class UserDelete(BaseModel):
 
 class UserResponse(UserBase):
     userId: int
-    hashed_password: str

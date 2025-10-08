@@ -37,12 +37,11 @@ class CompletedCourseBase(BaseModel):
 class CompletedCourseCreate(CompletedCourseBase):
     courseId: int
     createdBy: str
-    createdOn: date
 
 class CompletedCourseUpdate(CompletedCourseBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class CompletedCourseDelete(BaseModel):
     isActive: bool = False

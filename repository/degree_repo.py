@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_degree(new_degree: DegreeCreate, db: db_dependency):
-    db_degree = Degree(**new_degree.dict())
+    db_degree = Degree(**new_degree.model_dump())
     db.add(db_degree)
     db.commit()
     return db_degree
@@ -19,7 +19,7 @@ def update_degree(degree_id: int, updated_degree: DegreeUpdate, db: db_dependenc
     if db_degree is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_degree.dict(exclude_unset=True).items():
+    for key, value in updated_degree.model_dump().items():
         setattr(db_degree, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_degree(degree_id: int, updated_degree: DegreeUpdate, db: db_dependenc
 def delete_degree(degreeId: int, degree_delete: DegreeDelete, db: db_dependency):
     db_degree = db.query(Degree).filter(Degree.degreeId == degreeId).first()
 
-    for key, value in degree_delete.dict(exclude_unset=True).items():
+    for key, value in degree_delete.model_dump().items():
         setattr(db_degree, key, value)
         
     db.commit()

@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_keyword(new_keyword: KeywordCreate, db: db_dependency):
-    db_keyword = Keyword(**new_keyword.dict())
+    db_keyword = Keyword(**new_keyword.model_dump())
     db.add(db_keyword)
     db.commit()
     return db_keyword
@@ -19,7 +19,7 @@ def update_keyword(keyword_id: int, updated_keyword: KeywordUpdate, db: db_depen
     if db_keyword is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_keyword.dict(exclude_unset=True).items():
+    for key, value in updated_keyword.model_dump().items():
         setattr(db_keyword, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_keyword(keyword_id: int, updated_keyword: KeywordUpdate, db: db_depen
 def delete_keyword(keyword_id: int, keyword_delete: KeywordDelete, db: db_dependency):
     db_keyword = db.query(Keyword).filter(Keyword.keywordId == keyword_id).first()
 
-    for key, value in keyword_delete.dict(exclude_unset=True).items():
+    for key, value in keyword_delete.model_dump().items():
         setattr(db_keyword, key, value)
         
     db.commit()

@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_honorMapping(new_honorMapping: HonorMappingCreate, db: db_dependency):
-    db_honorMapping = HonorMapping(**new_honorMapping.dict())
+    db_honorMapping = HonorMapping(**new_honorMapping.model_dump())
     db.add(db_honorMapping)
     db.commit()
     return db_honorMapping
@@ -19,7 +19,7 @@ def update_honorMapping(honorMapping_id: int, updated_honorMapping: HonorMapping
     if db_honorMapping is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_honorMapping.dict(exclude_unset=True).items():
+    for key, value in updated_honorMapping.model_dump().items():
         setattr(db_honorMapping, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_honorMapping(honorMapping_id: int, updated_honorMapping: HonorMapping
 def delete_honorMapping(honorMapping_id: int, honorMapping_delete: HonorMappingDelete, db: db_dependency):
     db_honorMapping = db.query(HonorMapping).filter(HonorMapping.honorMappingId == honorMapping_id).first()
 
-    for key, value in honorMapping_delete.dict(exclude_unset=True).items():
+    for key, value in honorMapping_delete.model_dump().items():
         setattr(db_honorMapping, key, value)
 
     db.commit()

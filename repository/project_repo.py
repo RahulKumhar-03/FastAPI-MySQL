@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_project(new_project: ProjectCreate, db: db_dependency):
-    db_project = Project(**new_project.dict())
+    db_project = Project(**new_project.model_dump())
     db.add(db_project)
     db.commit()
     return db_project
@@ -19,7 +19,7 @@ def update_project(project_id: int, updated_project: ProjectUpdate, db: db_depen
     if db_project is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_project.dict(exclude_unset=True).items():
+    for key, value in updated_project.model_dump().items():
         setattr(db_project, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_project(project_id: int, updated_project: ProjectUpdate, db: db_depen
 def delete_project(project_id: int, project_delete: ProjectDelete, db: db_dependency):
     db_project = db.query(Project).filter(Project.projectId == project_id).first()
 
-    for key, value in project_delete.dict(exclude_unset=True).items():
+    for key, value in project_delete.model_dump().items():
         setattr(db_project, key, value)
         
     db.commit()

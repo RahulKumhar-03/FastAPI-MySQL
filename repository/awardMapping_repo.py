@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_awardMapping(new_awardMapping: awardMappingCreate, db: db_dependency):
-    db_awardMapping = AwardMapping(**new_awardMapping.dict())
+    db_awardMapping = AwardMapping(**new_awardMapping.model_dump())
     db.add(db_awardMapping)
     db.commit()
     return db_awardMapping
@@ -19,7 +19,7 @@ def update_awardMapping(awardMapping_id: int, updated_awardMapping: AwardMapping
     if db_awardMapping is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_awardMapping.dict(exclude_unset=True).items():
+    for key, value in updated_awardMapping.model_dump().items():
         setattr(db_awardMapping, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_awardMapping(awardMapping_id: int, updated_awardMapping: AwardMapping
 def delete_awardMapping(awardMapping_id: int, awardMapping_delete: AwardMappingDelete, db: db_dependency):
     db_awardMapping = db.query(AwardMapping).filter(AwardMapping.awardMappingId == awardMapping_id).first()
 
-    for key, value in awardMapping_delete.dict(exclude_unset=True).items():
+    for key, value in awardMapping_delete.model_dump().items():
         setattr(db_awardMapping, key, value)
 
     db.commit()

@@ -25,12 +25,11 @@ class ProjectBase(BaseModel):
 class ProjectCreate(ProjectBase):
     internshipId: int
     createdBy: str
-    createdOn: date
 
 class ProjectUpdate(ProjectBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class ProjectDelete(BaseModel):
     isActive: bool = False

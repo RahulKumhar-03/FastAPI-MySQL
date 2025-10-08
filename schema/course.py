@@ -33,12 +33,11 @@ class CourseBase(BaseModel):
 class CourseCreate(CourseBase):
     degreeId: int
     createdBy: str
-    createdOn: date
 
 class CourseUpdate(CourseBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class CourseDelete(BaseModel):
     isActive: bool = False

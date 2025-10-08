@@ -13,10 +13,10 @@ def updateUser(userId: int, updated_user: UserUpdate, db: db_dependency):
     return UserRepository.update_user(userId, updated_user, db)
 
 def deleteUser(userId: int, user_delete: UserDelete,  db: db_dependency):
-    user = db.query(User).filter(User.userId == userId).first()
+    user = UserRepository.userExists(userId, db)
     
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User Not Found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
     return UserRepository.delete_user(userId, user_delete, db)
     

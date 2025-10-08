@@ -25,12 +25,11 @@ class KeywordMappingBase(BaseModel):
 
 class KeywordMappingCreate(KeywordMappingBase):
     createdBy: str
-    createdOn: date
 
 class KeywordMappingUpdate(KeywordMappingBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class KeywordMappingDelete(BaseModel):
     isActive: bool = False

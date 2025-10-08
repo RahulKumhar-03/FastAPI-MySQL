@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_skillValidated(new_skillValidated: SkillValidatedCreate, db: db_dependency):
-    db_skillValidated = SkillValidated(**new_skillValidated.dict())
+    db_skillValidated = SkillValidated(**new_skillValidated.model_dump())
     db.add(db_skillValidated)
     db.commit()
     return db_skillValidated
@@ -19,7 +19,7 @@ def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillV
     if db_skillValidated is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_skillValidated.dict(exclude_unset=True).items():
+    for key, value in updated_skillValidated.model_dump().items():
         setattr(db_skillValidated, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillV
 def delete_skillValidated(skillValidated_id: int, skillValidated_delete: SkillValidatedDelete, db: db_dependency):
     db_skillValidated = db.query(SkillValidated).filter(SkillValidated.skillValidatedId == skillValidated_id).first()
 
-    for key, value in skillValidated_delete.dict(exclude_unset=True).items():
+    for key, value in skillValidated_delete.model_dump().items():
         setattr(db_skillValidated, key, value)
          
     db.commit()

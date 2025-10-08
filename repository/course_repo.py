@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_course(new_course: CourseCreate, db: db_dependency):
-    db_course = Course(**new_course.dict())
+    db_course = Course(**new_course.model_dump())
     db.add(db_course)
     db.commit()
     return db_course
@@ -19,7 +19,7 @@ def update_course(course_id: int, updated_course: CourseUpdate, db: db_dependenc
     if db_course is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_course.dict(exclude_unset=True).items():
+    for key, value in updated_course.model_dump().items():
         setattr(db_course, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_course(course_id: int, updated_course: CourseUpdate, db: db_dependenc
 def delete_course(course_id: int, course_delete: Course, db: db_dependency):
     db_course = db.query(Course).filter(Course.courseId == course_id).first()
 
-    for key, value in course_delete.dict(exclude_unset=True).items():
+    for key, value in course_delete.model_dump().items():
         setattr(db_course, key, value)
         
     db.commit()

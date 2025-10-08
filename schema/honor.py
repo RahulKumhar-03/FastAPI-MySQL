@@ -23,12 +23,11 @@ class HonorBase(BaseModel):
 
 class HonorCreate(HonorBase):
     createdBy: str
-    createdOn: date
 
 class HonorUpdate(HonorBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class HonorDelete(BaseModel):
     isActive: bool = False

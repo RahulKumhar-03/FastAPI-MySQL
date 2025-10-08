@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_skillValidatedMapping(new_skillValidatedMapping: SkillValidatedMappingCreate, db: db_dependency):
-    db_skillValidatedMapping = SkillValidatedMapping(**new_skillValidatedMapping.dict())
+    db_skillValidatedMapping = SkillValidatedMapping(**new_skillValidatedMapping.model_dump())
     db.add(db_skillValidatedMapping)
     db.commit()
     return db_skillValidatedMapping
@@ -19,7 +19,7 @@ def update_skillValidatedMapping(skillValidatedMapping_id: int, updated_skillVal
     if db_skillValidatedMapping is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_skillValidatedMapping.dict(exclude_unset=True).items():
+    for key, value in updated_skillValidatedMapping.model_dump().items():
         setattr(db_skillValidatedMapping, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_skillValidatedMapping(skillValidatedMapping_id: int, updated_skillVal
 def delete_skillValidatedMapping(skillValidatedMapping_id: int, skillValidatedMapping_delete: SkillValidatedMappingDelete, db: db_dependency):
     db_skillValidatedMapping = db.query(SkillValidatedMapping).filter(SkillValidatedMapping.skillValidatedMappingId == skillValidatedMapping_id).first()
 
-    for key, value in SkillValidatedMappingDelete.dict(exclude_unset=True).items():
+    for key, value in SkillValidatedMappingDelete.model_dump().items():
         setattr(db_skillValidatedMapping, key, value)    
         
     db.commit()

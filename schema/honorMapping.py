@@ -25,12 +25,11 @@ class HonorMappingBase(BaseModel):
 
 class HonorMappingCreate(HonorMappingBase):
     createdBy: str
-    createdOn: date
 
 class HonorMappingUpdate(HonorMappingBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class HonorMappingDelete(BaseModel):
     isActive: bool = False

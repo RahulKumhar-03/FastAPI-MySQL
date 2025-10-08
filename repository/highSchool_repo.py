@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_highSchool(new_highSchool: HighSchoolCreate, db: db_dependency):
-    db_highSchool = HighSchool(**new_highSchool.dict())
+    db_highSchool = HighSchool(**new_highSchool.model_dump())
     db.add(db_highSchool)
     db.commit()
     return db_highSchool
@@ -19,7 +19,7 @@ def update_highSchool(highSchoolId: int, updated_highSchool: HighSchoolUpdate, d
     if db_highSchool is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_highSchool.dict(exclude_unset=True).items():
+    for key, value in updated_highSchool.model_dump().items():
         setattr(db_highSchool, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_highSchool(highSchoolId: int, updated_highSchool: HighSchoolUpdate, d
 def delete_highSchool(highSchoolId: int, highSchool_delete: HighSchoolDelete, db: db_dependency):
     db_highSchool = db.query(HighSchool).filter(HighSchool.highSchoolId == highSchoolId).first()
 
-    for key, value in highSchool_delete.dict(exclude_unset=True).items():
+    for key, value in highSchool_delete.model_dump().items():
         setattr(db_highSchool, key, value)
 
     db.commit()

@@ -25,12 +25,11 @@ class ActivityMappingBase(BaseModel):
 
 class ActivityMappingCreate(ActivityMappingBase):
     createdBy: str
-    createdOn: date
 
 class ActivityMappingUpdate(ActivityMappingBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class ActivityMappingDelete(BaseModel):
     isActive: bool = False

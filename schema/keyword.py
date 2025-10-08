@@ -23,12 +23,11 @@ class KeywordBase(BaseModel):
 
 class KeywordCreate(KeywordBase):
     createdBy: str
-    createdOn: date
 
 class KeywordUpdate(KeywordBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class KeywordDelete(BaseModel):
     isActive: bool = False

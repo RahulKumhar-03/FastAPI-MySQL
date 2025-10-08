@@ -31,12 +31,11 @@ class HighSchoolBase(BaseModel):
 class HighSchoolCreate(HighSchoolBase):
     educationId: int
     createdBy: str
-    createdOn: date
 
 class HighSchoolUpdate(HighSchoolBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class HighSchoolDelete(BaseModel):
     isActive: bool = False

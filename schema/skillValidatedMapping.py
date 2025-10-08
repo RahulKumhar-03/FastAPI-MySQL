@@ -25,12 +25,11 @@ class SkillValidatedMappingBase(BaseModel):
 
 class SkillValidatedMappingCreate(SkillValidatedMappingBase):
     createdBy: str
-    createdOn: date
 
 class SkillValidatedMappingUpdate(SkillValidatedMappingBase):
     isActive: bool = False
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class SkillValidatedMappingDelete(BaseModel):
     isActive: bool

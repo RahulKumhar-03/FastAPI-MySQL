@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_internship(new_internship: InternshipCreate, db: db_dependency):
-    db_internship = Internship(**new_internship.dict())
+    db_internship = Internship(**new_internship.model_dump())
     db.add(db_internship)
     db.commit()
     return db_internship
@@ -19,7 +19,7 @@ def update_internship(internship_id: int, updated_internship: InternshipUpdate, 
     if db_internship is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_internship.dict(exclude_unset=True).items():
+    for key, value in updated_internship.model_dump().items():
         setattr(db_internship, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_internship(internship_id: int, updated_internship: InternshipUpdate, 
 def delete_internship(internship_id: int, internship_delete: InternshipDelete, db: db_dependency):
     db_internship = db.query(Internship).filter(Internship.internshipId == internship_id).first()
 
-    for key, value in internship_delete.dict(exclude_unset=True).items():
+    for key, value in internship_delete.model_dump().items():
         setattr(db_internship, key, value)
         
     db.commit()

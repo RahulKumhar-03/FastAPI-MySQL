@@ -23,12 +23,11 @@ class AwardBase(BaseModel):
 
 class AwardCreate(AwardBase):
     createdBy: str
-    createdOn: date
 
 class AwardUpdate(AwardBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class AwardDelete(BaseModel):
     isActive: bool = False

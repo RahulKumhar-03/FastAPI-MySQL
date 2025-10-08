@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_award(new_award: AwardCreate, db: db_dependency):
-    db_award = Award(**new_award.dict())
+    db_award = Award(**new_award.model_dump())
     db.add(db_award)
     db.commit()
     return db_award

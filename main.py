@@ -1,9 +1,22 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, Request
 from routers import user_router, personal_info_router, education_router, degree_router, online_course_router, certification_router, highSchool_router, thesis_router, keyword_mapping_router, keyword_router, course_router, completedCourse_router
 from routers import internship_router, project_router, skillValidatedMapping_router, skillValidated_router, honor_router, award_router, activity_router, honorMapping_router, awardMapping_router, activityMapping_router
-
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
+
+@app.exception_handler(RequestValidationError)
+def errors_list(request: Request, exc: RequestValidationError):
+    errors = []
+    
+    for error in exc.errors():
+        errors.append(error['msg'])
+
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+        content={'error':errors}
+    )
 
 app.include_router(user_router.router, prefix="/users", tags=["Users"])
 app.include_router(personal_info_router.router, prefix="/personalInfo", tags=["PersonalInfo"])

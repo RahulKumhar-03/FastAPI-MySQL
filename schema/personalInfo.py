@@ -31,12 +31,11 @@ class PersonalInfoCreate(PersonalInfoBase):
     contactId: int
     userId: int
     createdBy: str
-    createdOn: date
 
 class PersonalInfoUpdate(PersonalInfoBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class PersonalInfoDelete(BaseModel):
     isActive: bool = False

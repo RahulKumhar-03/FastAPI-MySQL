@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_keyword_mapping(new_keyword_mapping: KeywordMappingCreate, db: db_dependency):
-    db_keyword_mapping = KeywordMapping(**new_keyword_mapping.dict())
+    db_keyword_mapping = KeywordMapping(**new_keyword_mapping.model_dump())
     db.add(db_keyword_mapping)
     db.commit()
     return db_keyword_mapping
@@ -19,7 +19,7 @@ def update_keyword_mapping(keyword_mapping_id: int, updated_keyword_mapping: Key
     if db_keyword_mapping is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_keyword_mapping.dict(exclude_unset=True).items():
+    for key, value in updated_keyword_mapping.model_dump().items():
         setattr(db_keyword_mapping, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_keyword_mapping(keyword_mapping_id: int, updated_keyword_mapping: Key
 def delete_keyword_mapping(keyword_mapping_id: int, keywordMapping_delete: KeywordMappingDelete, db: db_dependency):
     db_keyword_mapping = db.query(KeywordMapping).filter(KeywordMapping.keywordMappingId == keyword_mapping_id).first()
 
-    for key, value in keywordMapping_delete.dict(exclude_unset=True).items():
+    for key, value in keywordMapping_delete.model_dump().items():
         setattr(db_keyword_mapping, key, value)
         
     db.commit()

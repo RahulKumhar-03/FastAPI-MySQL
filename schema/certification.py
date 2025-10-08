@@ -52,12 +52,11 @@ class CertificationBase(BaseModel):
 class CertificationCreate(CertificationBase):
     educationId: int
     createdBy: str
-    createdOn: date
 
 class CertificationUpdate(CertificationBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class CertificationDelete(BaseModel):
     isActive: bool = False

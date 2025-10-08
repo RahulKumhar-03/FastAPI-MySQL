@@ -35,12 +35,11 @@ class ThesisBase(BaseModel):
 class ThesisCreate(ThesisBase):
     degreeId: int
     createdBy: str
-    createdOn: date
 
 class ThesisUpdate(ThesisBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class ThesisDelete(BaseModel):
     isActive: bool = False

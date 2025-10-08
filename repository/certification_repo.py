@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_certification(new_certification: CertificationCreate, db: db_dependency):
-    db_certification = Certification(**new_certification.dict())
+    db_certification = Certification(**new_certification.model_dump())
     db.add(db_certification)
     db.commit()
     return db_certification
@@ -19,7 +19,7 @@ def update_certification(certification_id: int, updated_certification: Certifica
     if db_certification is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_certification.dict(exclude_unset=True).items():
+    for key, value in updated_certification.model_dump().items():
         setattr(db_certification, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_certification(certification_id: int, updated_certification: Certifica
 def delete_certification(certification_id: int, certification_delete: CertificationDelete, db: db_dependency):
     db_certification = db.query(Certification).filter(Certification.certificationId == certification_id).first()
 
-    for key, value in certification_delete.dict(exclude_unset=True).items():
+    for key, value in certification_delete.model_dump().items():
         setattr(db_certification, key, value)
         
     db.commit()

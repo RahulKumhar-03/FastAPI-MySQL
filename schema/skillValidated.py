@@ -23,12 +23,11 @@ class SkillValidatedBase(BaseModel):
 
 class SkillValidatedCreate(SkillValidatedBase):
     createdBy: str
-    createdOn: date
 
 class SkillValidatedUpdate(SkillValidatedBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class SkillValidatedDelete(BaseModel):
     isActive: bool = False

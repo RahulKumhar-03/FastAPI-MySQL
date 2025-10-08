@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean, String, CHAR, DateTime, Float
 from database import Base
-from datetime import datetime, date
+from datetime import datetime
 import uuid
 from pydantic import BaseModel
 
@@ -25,12 +25,11 @@ class AwardMappingBase(BaseModel):
 
 class awardMappingCreate(AwardMappingBase):
     createdBy: str
-    createdOn: date
 
 class AwardMappingUpdate(AwardMappingBase):
     isActive: bool
     changedBy: str
-    changedOn: date
+    changedOn: datetime
 
 class AwardMappingDelete(BaseModel):
     isActive: bool = False

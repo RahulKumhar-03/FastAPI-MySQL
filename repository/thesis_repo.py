@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 
 def create_thesis(new_thesis: ThesisCreate, db: db_dependency):
-    db_thesis = Thesis(**new_thesis.dict())
+    db_thesis = Thesis(**new_thesis.model_dump())
     db.add(db_thesis)
     db.commit()
     return db_thesis
@@ -19,7 +19,7 @@ def update_thesis(thesis_id: int, updated_thesis: ThesisUpdate, db: db_dependenc
     if db_thesis is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_thesis.dict(exclude_unset=True).items():
+    for key, value in updated_thesis.model_dump().items():
         setattr(db_thesis, key, value)
     
     db.commit()
@@ -28,7 +28,7 @@ def update_thesis(thesis_id: int, updated_thesis: ThesisUpdate, db: db_dependenc
 def delete_thesis(thesis_id: int, thesis_delete: ThesisDelete, db: db_dependency):
     db_thesis = db.query(Thesis).filter(Thesis.thesisId == thesis_id).first()
 
-    for key, value in thesis_delete.dict(exclude_unset=True).items():
+    for key, value in thesis_delete.model_dump().items():
         setattr(db_thesis, key, value)
         
     db.commit()

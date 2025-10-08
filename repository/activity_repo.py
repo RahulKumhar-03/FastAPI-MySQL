@@ -2,9 +2,8 @@ from schema.activity import Activity, ActivityUpdate, ActivityCreate, ActivityDe
 from database import db_dependency
 from fastapi import HTTPException, status
 
-
 def create_activity(new_activity: ActivityCreate, db: db_dependency):
-    db_activity = Activity(**new_activity.dict())
+    db_activity = Activity(**new_activity.model_dump())
     db.add(db_activity)
     db.commit()
     return db_activity
@@ -19,7 +18,7 @@ def update_activity(activity_id: int, updated_activity: ActivityUpdate, db: db_d
     if db_activity is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_activity.dict(exclude_unset=True).items():
+    for key, value in updated_activity.model_dump().items():
         setattr(db_activity, key, value)
     
     db.commit()
@@ -28,7 +27,7 @@ def update_activity(activity_id: int, updated_activity: ActivityUpdate, db: db_d
 def delete_activity(activity_id: int, activity_soft_delete: ActivityDelete, db: db_dependency):
     db_activity = db.query(Activity).filter(Activity.activityId == activity_id).first()
 
-    for key, value in activity_soft_delete.dict(exclude_unset=True).items():
+    for key, value in activity_soft_delete.model_dump().items():
         setattr(db_activity, key, value)
 
     db.commit()
