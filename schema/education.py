@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, ForeignKey, CHAR, Boolean, String, Date
+from sqlalchemy import Column, Integer, ForeignKey, CHAR, Boolean, DateTime
 from database import Base
 import uuid
-from datetime import datetime, date
+from datetime import datetime
 from pydantic import BaseModel
 
 class Education(Base):
@@ -11,23 +11,19 @@ class Education(Base):
     personalInfoId = Column(Integer, ForeignKey('personalinfo.personalInfoId'), unique=True)
     uiId = Column(CHAR(36), nullable=False, default=str(uuid.uuid4()))
     isActive = Column(Boolean, default=True)
-    createdBy = Column(String(50), nullable=True, default='admin')
-    createdOn = Column(Date, default=datetime.now())
-    changedBy = Column(String(50), nullable=True)
-    changedOn = Column(Date, nullable=True)
-    deletedBy = Column(String(50), nullable=True)
-    deletedOn = Column(Date, nullable=True)
+    createdBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    createdOn = Column(DateTime, default=datetime.now())
+    changedBy = Column(Integer,ForeignKey('user.userId'), nullable=True)
+    changedOn = Column(DateTime, nullable=True, onupdate=datetime.now())
+    deletedBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    deletedOn = Column(DateTime, nullable=True)
 
 class EducationBase(BaseModel):
     personalInfoId: int
 
-class EducationCreate(EducationBase):
-    createdBy: str
-
 class EducationDelete(BaseModel):
     isActive: bool = False
-    deletedBy: str
-    deletedOn: datetime
+    deletedOn: datetime = datetime.now()
 
 class EducationResponse(EducationBase):
     educationId: int

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean, String, CHAR, DateTime, Float
+from sqlalchemy import Column, Integer, ForeignKey, Boolean, String, CHAR, DateTime, Float
 from database import Base
 from datetime import datetime, date
 import uuid
@@ -15,12 +15,12 @@ class HighSchool(Base):
     valedictorian = Column(Boolean, nullable=False)
     uiId = Column(CHAR(36), nullable=False, default=str(uuid.uuid4()))
     isActive = Column(Boolean, default=True)
-    createdBy = Column(String(50), nullable=True, default='admin')
-    createdOn = Column(Date, default=datetime.now())
-    changedBy = Column(String(50), nullable=True)
-    changedOn = Column(Date, nullable=True)
-    deletedBy = Column(String(50), nullable=True)
-    deletedOn = Column(Date, nullable=True)
+    createdBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    createdOn = Column(DateTime, default=datetime.now())
+    changedBy = Column(Integer,ForeignKey('user.userId'), nullable=True)
+    changedOn = Column(DateTime, nullable=True, onupdate=datetime.now())
+    deletedBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    deletedOn = Column(DateTime, nullable=True)
 
 class HighSchoolBase(BaseModel):
     highSchoolName: str
@@ -30,17 +30,10 @@ class HighSchoolBase(BaseModel):
 
 class HighSchoolCreate(HighSchoolBase):
     educationId: int
-    createdBy: str
-
-class HighSchoolUpdate(HighSchoolBase):
-    isActive: bool
-    changedBy: str
-    changedOn: datetime
 
 class HighSchoolDelete(BaseModel):
     isActive: bool = False
-    deletedBy: str
-    deletedOn: datetime
+    deletedOn: datetime = datetime.now()
 
 class HighSchoolResponse(HighSchoolBase):
     highSchoolId: int

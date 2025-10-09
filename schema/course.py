@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean, String, CHAR, DateTime, Float
+from sqlalchemy import Column, Integer, DateTime, ForeignKey, Boolean, CHAR, Float
 from database import Base
-from datetime import datetime, date
+from datetime import datetime
 import uuid
 from pydantic import BaseModel
 
@@ -16,12 +16,12 @@ class Course(Base):
     minorCredits = Column(Float, nullable=False)
     uiId = Column(CHAR(36), nullable=False, default=str(uuid.uuid4()))
     isActive = Column(Boolean, default=True)
-    createdBy = Column(String(50), nullable=True, default='admin')
-    createdOn = Column(Date, default=datetime.now())
-    changedBy = Column(String(50), nullable=True)
-    changedOn = Column(Date, nullable=True)
-    deletedBy = Column(String(50), nullable=True)
-    deletedOn = Column(Date, nullable=True)
+    createdBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    createdOn = Column(DateTime, default=datetime.now())
+    changedBy = Column(Integer,ForeignKey('user.userId'), nullable=True)
+    changedOn = Column(DateTime, nullable=True, onupdate=datetime.now())
+    deletedBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    deletedOn = Column(DateTime, nullable=True)
 
 class CourseBase(BaseModel):
     totalCredits: float 
@@ -32,17 +32,10 @@ class CourseBase(BaseModel):
 
 class CourseCreate(CourseBase):
     degreeId: int
-    createdBy: str
-
-class CourseUpdate(CourseBase):
-    isActive: bool
-    changedBy: str
-    changedOn: datetime
 
 class CourseDelete(BaseModel):
     isActive: bool = False
-    deletedBy: str
-    deletedOn: datetime
+    deletedOn: datetime = datetime.now()
 
 class CourseResponse(CourseBase):
     courseId: int

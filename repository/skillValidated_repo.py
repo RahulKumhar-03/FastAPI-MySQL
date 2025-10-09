@@ -1,10 +1,10 @@
-from schema.skillValidated import SkillValidated, SkillValidatedCreate, SkillValidatedUpdate, SkillValidatedDelete
+from schema.skillValidated import SkillValidated, SkillValidatedBase, SkillValidatedDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
 
-def create_skillValidated(new_skillValidated: SkillValidatedCreate, db: db_dependency):
-    db_skillValidated = SkillValidated(**new_skillValidated.model_dump())
+def create_skillValidated(new_skillValidated: SkillValidatedBase, db: db_dependency, currentUser):
+    db_skillValidated = SkillValidated(**new_skillValidated.model_dump(), createdBy = currentUser["userId"])
     db.add(db_skillValidated)
     db.commit()
     return db_skillValidated
@@ -13,7 +13,7 @@ def get_skillValidated(db: db_dependency):
     skillValidated = db.query(SkillValidated).all()
     return skillValidated
 
-def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillValidatedUpdate, db: db_dependency):
+def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillValidatedBase, db: db_dependency, currentUser):
     db_skillValidated = db.query(SkillValidated).filter(skillValidated_id == SkillValidated.skillValidatedId).first()
 
     if db_skillValidated is None:
@@ -21,15 +21,19 @@ def update_skillValidated(skillValidated_id: int, updated_skillValidated: SkillV
 
     for key, value in updated_skillValidated.model_dump().items():
         setattr(db_skillValidated, key, value)
+
+    db_skillValidated.changedBy = currentUser["userId"]
     
     db.commit()
     return db_skillValidated
 
-def delete_skillValidated(skillValidated_id: int, skillValidated_delete: SkillValidatedDelete, db: db_dependency):
+def delete_skillValidated(skillValidated_id: int, skillValidated_delete: SkillValidatedDelete, db: db_dependency, currentUser):
     db_skillValidated = db.query(SkillValidated).filter(SkillValidated.skillValidatedId == skillValidated_id).first()
 
     for key, value in skillValidated_delete.model_dump().items():
         setattr(db_skillValidated, key, value)
+
+    db_skillValidated.deletedBy = currentUser["userId"]
          
     db.commit()
     return {"message":"Skill Validated Record Deleted Successfully."}

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey, Boolean, String, CHAR, DateTime, Float
+from sqlalchemy import Column, Integer, ForeignKey, Boolean, String, CHAR, DateTime, Float
 from database import Base
 from datetime import datetime, date
 import uuid
@@ -26,12 +26,12 @@ class Certification(Base):
     ceuRequired = Column(Float, nullable=True)
     uiId = Column(CHAR(36), nullable=False, default=str(uuid.uuid4()))
     isActive = Column(Boolean, default=True)
-    createdBy = Column(String(50), nullable=True, default='admin')
-    createdOn = Column(Date, default=datetime.now())
-    changedBy = Column(String(50), nullable=True)
-    changedOn = Column(Date, nullable=True)
-    deletedBy = Column(String(50), nullable=True)
-    deletedOn = Column(Date, nullable=True)
+    createdBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    createdOn = Column(DateTime, default=datetime.now())
+    changedBy = Column(Integer,ForeignKey('user.userId'), nullable=True)
+    changedOn = Column(DateTime, nullable=True, onupdate=datetime.now())
+    deletedBy = Column(Integer, ForeignKey('user.userId'), nullable=True)
+    deletedOn = Column(DateTime, nullable=True)
 
 class CertificationBase(BaseModel):
     certificateName: str
@@ -51,17 +51,10 @@ class CertificationBase(BaseModel):
 
 class CertificationCreate(CertificationBase):
     educationId: int
-    createdBy: str
-
-class CertificationUpdate(CertificationBase):
-    isActive: bool
-    changedBy: str
-    changedOn: datetime
 
 class CertificationDelete(BaseModel):
     isActive: bool = False
-    deletedBy: str
-    deletedOn: datetime
+    deletedOn: datetime = datetime.now()
 
 class CertificationResponse(CertificationBase):
     certificationId: int
