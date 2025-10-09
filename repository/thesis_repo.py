@@ -1,33 +1,39 @@
-from schema.thesis import Thesis, ThesisCreate, ThesisUpdate 
+from schema.thesis import Thesis, ThesisCreate, ThesisBase, ThesisResponse, ThesisDelete
 from database import db_dependency
 from fastapi import HTTPException, status
 
 
-def create_thesis(new_thesis: ThesisCreate, db: db_dependency):
-    db_thesis = Thesis(**new_thesis.dict())
+def create_thesis(new_thesis: ThesisCreate, db: db_dependency, currentUser):
+    db_thesis = Thesis(**new_thesis.model_dump(), createdBy = currentUser["userId"])
     db.add(db_thesis)
     db.commit()
     return db_thesis
 
-def get_thesis(db: db_dependency):
+def get_thesis(db: db_dependency) -> list[ThesisResponse]:
     thesis = db.query(Thesis).all()
     return thesis
 
-def update_thesis(thesis_id: int, updated_thesis: ThesisUpdate, db: db_dependency):
+def update_thesis(thesis_id: int, updated_thesis: ThesisBase, db: db_dependency, currentUser):
     db_thesis = db.query(Thesis).filter(thesis_id == Thesis.thesisId).first()
 
     if db_thesis is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="NO Record Found")
 
-    for key, value in updated_thesis.dict(exclude_unset=True).items():
+    for key, value in updated_thesis.model_dump().items():
         setattr(db_thesis, key, value)
+
+    db_thesis.changedBy = currentUser["userId"]
     
     db.commit()
     return db_thesis
 
-def delete_thesis(thesis_id: int, db: db_dependency):
+def delete_thesis(thesis_id: int, thesis_delete: ThesisDelete, db: db_dependency, currentUser):
     db_thesis = db.query(Thesis).filter(Thesis.thesisId == thesis_id).first()
 
-    db.delete(db_thesis)
+    for key, value in thesis_delete.model_dump().items():
+        setattr(db_thesis, key, value)
+
+    db_thesis.deletedBy = currentUser["userId"]
+        
     db.commit()
     return {"message":"Online Course Record Deleted Successfully."}
